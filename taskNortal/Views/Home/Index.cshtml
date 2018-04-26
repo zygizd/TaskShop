@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model IEnumerable<taskNortal.Models.Phone>
+
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>E-Shop assignment</title>
+    <link href="~/Assets/Images/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link href="~/Content/custom.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="main-menu">
+                <ul class="nav navbar-nav" id="main-menu-left">
+                    <li><h1>Nortal .NET assignment</h1></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" id="user-actions">
+                    <li><a href="http://www.nortal.lt/"><img src="~/Assets/Images/home.png"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="all-products page visible">
+            <div class="filters">
+                <form>
+                    <div class="filter-criteria">
+                        <span>Manufacturer</span>
+                        @{
+                            List<string> manufacturers = new List<string>();
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (!manufacturers.Contains(item.Specs.Manufacturer))
+                            {
+                                <label><input type="checkbox" name="manufacturer" value="@(item.Specs.Manufacturer)">@(item.Specs.Manufacturer)</label>
+                                manufacturers.Add(item.Specs.Manufacturer);
+                            }
+                        }
+                    </div>
+                    <div class="filter-criteria">
+                        <span>Storage</span>
+                        @{
+                            List<int> storages = new List<int>();
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (!storages.Contains(item.Specs.Storage))
+                            {
+                                <label><input type="checkbox" value="@(item.Specs.Storage)" name="storage">@(item.Specs.Storage)</label>
+                                storages.Add(item.Specs.Storage);
+                            }
+                        }
+                    </div>
+
+                    <div class="filter-criteria">
+                        <span>OS</span>
+                        @{
+                            List<string> Os = new List<string>();
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (!Os.Contains(item.Specs.Os))
+                            {
+                                <label><input type="checkbox" value="@(item.Specs.Os)" name="os">@(item.Specs.Os)</label>
+                                Os.Add(item.Specs.Os);
+                            }
+                        }
+                    </div>
+
+                    <button id="clear_filters" class="btn btn-primary">Clear filters</button>
+                </form>
+            </div>
+            <!-- Product in catalog -->
+            <ul class="products-list">
+                @foreach (var item in Model)
+                {
+                    <li id="products-template" data-index="1">
+                        <a href="#product/@(item.Id)">
+                            <div class="product-photo"><img src="~/@(item.Image.Small)" height="130" alt="@(item.Name)" /></div>
+                            <h2>@(item.Name)</h2>
+                            <div class="product-description">
+                                <button class="btn btn-primary">Buy</button>
+                                <p class="product-price">@(item.Price)</p>
+                            </div>
+                            <div class="highlight"></div>
+                        </a>
+                    </li>
+                }
+            </ul>
+
+        </div>
+        <!-- Product view -->
+        @foreach (var item in Model)
+        {
+            <div class="single-product page" id="@(item.Id)">
+                <div class="overlay"></div>
+                <div class="preview-large">
+                    <h3>@(item.Name)</h3>
+                    <img src="~/@(item.Image.Large)" />
+                    <p align="left">
+                        Manufacturer: @(item.Specs.Manufacturer) <br /> Storage: @(item.Specs.Storage) <br /> OS: @(item.Specs.Os) <br /> Camera: @(item.Specs.Camera)
+                    </p>
+                    <span class="close">×</span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <footer class="bs-docs-footer">
+        <div class="container">
+            <p>
+                Created by Nortal. Editing of this application is only allowed with the purpose of applying to Nortal.<br />
+                We are not responsible for the content dynamically loaded or generated on this site and do not endorse the views expressed within that content.<br />
+                <a href="#">Back to top</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/script.js"></script>
+</body>
+</html>
